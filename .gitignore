@@ -8,4 +8,4 @@ __pycache__/
 .idea/
 *.log
 .DS_Store
-*.db
+olist.db
