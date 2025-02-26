@@ -28,22 +28,21 @@ def get_public_holidays(public_holidays_url: str, year: str) -> DataFrame:
     # Debes lanzar SystemExit si la solicitud falla. Investiga el método raise_for_status
     # de la biblioteca requests.
     try:
-        # Construir la URL con el año y el país "BR" (Brasil)
+    
         url = f"{public_holidays_url}/{year}/BR"
 
-        # Hacer la solicitud GET a la API
         response = requests.get(url)
 
-        # Verificar si la solicitud fue exitosa
+        
         response.raise_for_status()
 
-        # Convertir la respuesta JSON en un DataFrame
+        
         holidays_df = DataFrame(response.json())
 
-        # Eliminar columnas innecesarias
+        
         holidays_df.drop(columns=["types", "counties"], inplace=True, errors="ignore")
 
-        # Convertir la columna "date" a datetime
+        
         holidays_df["date"] = to_datetime(holidays_df["date"])
 
         return holidays_df
