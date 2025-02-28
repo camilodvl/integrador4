@@ -23,35 +23,21 @@ def get_public_holidays(public_holidays_url: str, year: str) -> DataFrame:
         DataFrame: A dataframe with the public holidays.
 
     """
-    # TODO: Implementa esta función.
-    # Debes usar la biblioteca requests para obtener los días festivos públicos del año dado.
-    # La URL es public_holidays_url/{year}/BR.
-    # Debes eliminar las columnas "types" y "counties" del DataFrame.
-    # Debes convertir la columna "date" a datetime.
-    # Debes lanzar SystemExit si la solicitud falla. Investiga el método raise_for_status
-    # de la biblioteca requests.
-    try:
-    
+    try: 
+
         url = f"{public_holidays_url}/{year}/BR"
-
-        response = requests.get(url)
-
-        
-        response.raise_for_status()
-
-        
-        holidays_df = DataFrame(response.json())
-
-        
-        holidays_df.drop(columns=["types", "counties"], inplace=True, errors="ignore")
-
-        
+        response = requests.get(url)        
+        response.raise_for_status()  
+        holidays_df = DataFrame(response.json())        
+        holidays_df.drop(columns=["types", "counties"], inplace=True, errors="ignore")        
         holidays_df["date"] = to_datetime(holidays_df["date"])
-
+        
         return holidays_df
-
+    
     except requests.exceptions.RequestException as e:
+
         print(f"Error al obtener los días festivos: {e}")
+
         raise SystemExit(e)
     
 
