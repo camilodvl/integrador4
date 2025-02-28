@@ -1,3 +1,10 @@
+# Video Explicativo
+https://youtu.be/7F7DW39C-wk
+
+# Integrantes
+## Camilo Andrés Ramírez Muñoz
+## Julian Ramirez Vasquez
+
 # Proyecto Integrador IV
 > Pipeline de Datos de E-Commerce
 
