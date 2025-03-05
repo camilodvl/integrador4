@@ -249,6 +249,11 @@ def query_orders_per_day_and_holidays_2017(database: Engine) -> QueryResult:
     #   - 'date': la fecha correspondiente a cada cantidad de pedidos.
     #   - 'holiday': columna booleana con True si esa fecha es festivo,
     #                y False en caso contrario. Usa el DataFrame `holidays` para esto.
+    result_df = pd.DataFrame({
+        'date': order_purchase_ammount_per_date.index,
+        'order_count': order_purchase_ammount_per_date.values,
+    })
+
     holidays["date"] = pd.to_datetime(holidays["date"]).dt.date
     result_df["holiday"] = result_df["date"].isin(holidays["date"])
 
