@@ -14,3 +14,50 @@
 -- 1. Puedes usar la función julianday para convertir una fecha a un número.
 -- 2. order_status == 'delivered' AND order_delivered_customer_date IS NOT NULL
 -- 3. Considera tomar order_id distintos.
+
+WITH cte AS (
+    SELECT DISTINCT
+        o.order_id,
+        -- Mes en número (01..12)
+        strftime('%m', o.order_purchase_timestamp) AS month_no,
+        -- Abreviatura del mes en español
+        CASE strftime('%m', o.order_purchase_timestamp)
+            WHEN '01' THEN 'Ene'
+            WHEN '02' THEN 'Feb'
+            WHEN '03' THEN 'Mar'
+            WHEN '04' THEN 'Abr'
+            WHEN '05' THEN 'May'
+            WHEN '06' THEN 'Jun'
+            WHEN '07' THEN 'Jul'
+            WHEN '08' THEN 'Ago'
+            WHEN '09' THEN 'Sep'
+            WHEN '10' THEN 'Oct'
+            WHEN '11' THEN 'Nov'
+            WHEN '12' THEN 'Dic'
+        END AS month,
+        -- Año
+        strftime('%Y', o.order_purchase_timestamp) AS year,
+        -- Tiempo real de entrega (en días)
+        (julianday(o.order_delivered_customer_date) 
+         - julianday(o.order_purchase_timestamp)) AS real_time,
+        -- Tiempo estimado de entrega (en días)
+        (julianday(o.order_estimated_delivery_date) 
+         - julianday(o.order_purchase_timestamp)) AS estimated_time
+    FROM olist_orders AS o
+    WHERE o.order_status = 'delivered'
+      AND o.order_delivered_customer_date IS NOT NULL
+)
+SELECT
+    month_no,
+    month,
+    -- Promedio de tiempo real por año (sin redondear)
+    COALESCE(AVG(CASE WHEN year = '2016' THEN real_time END), 'NaN') AS Year2016_real_time,
+    COALESCE(AVG(CASE WHEN year = '2017' THEN real_time END), 'NaN') AS Year2017_real_time,
+    COALESCE(AVG(CASE WHEN year = '2018' THEN real_time END), 'NaN') AS Year2018_real_time,
+    -- Promedio de tiempo estimado por año (sin redondear)
+    COALESCE(AVG(CASE WHEN year = '2016' THEN estimated_time END), 'NaN') AS Year2016_estimated_time,
+    COALESCE(AVG(CASE WHEN year = '2017' THEN estimated_time END), 'NaN') AS Year2017_estimated_time,
+    COALESCE(AVG(CASE WHEN year = '2018' THEN estimated_time END), 'NaN') AS Year2018_estimated_time
+FROM cte
+GROUP BY month_no, month
+ORDER BY month_no;
