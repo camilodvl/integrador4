@@ -26,4 +26,6 @@ WHERE
     o.order_status = 'delivered'
     AND o.order_delivered_customer_date IS NOT NULL
 GROUP BY
-    c.customer_state;
+    c.customer_state
+order by
+    Delivery_Difference ASC

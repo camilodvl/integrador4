@@ -18,9 +18,7 @@ WITH
     cte AS (
         SELECT DISTINCT
             o.order_id,
-            -- Mes en número (01..12)
             strftime ('%m', o.order_purchase_timestamp) AS month_no,
-            -- Abreviatura del mes en español
             CASE strftime ('%m', o.order_purchase_timestamp)
                 WHEN '01' THEN 'Jan'
                 WHEN '02' THEN 'Feb'
@@ -35,13 +33,10 @@ WITH
                 WHEN '11' THEN 'Nov'
                 WHEN '12' THEN 'Dec'
             END AS month,
-            -- Año
             strftime ('%Y', o.order_purchase_timestamp) AS year,
-            -- Tiempo real de entrega (en días)
             (
                 julianday (o.order_delivered_customer_date) - julianday (o.order_purchase_timestamp)
             ) AS real_time,
-            -- Tiempo estimado de entrega (en días)
             (
                 julianday (o.order_estimated_delivery_date) - julianday (o.order_purchase_timestamp)
             ) AS estimated_time
@@ -54,14 +49,13 @@ WITH
 SELECT
     month_no,
     month,
-    -- Promedio de tiempo real por año (sin redondear)
     COALESCE(
         AVG(
             CASE
                 WHEN year = '2016' THEN real_time
             END
         ),
-        'NaN'
+        0.0
     ) AS Year2016_real_time,
     COALESCE(
         AVG(
@@ -69,7 +63,7 @@ SELECT
                 WHEN year = '2017' THEN real_time
             END
         ),
-        'NaN'
+        0.0
     ) AS Year2017_real_time,
     COALESCE(
         AVG(
@@ -77,16 +71,15 @@ SELECT
                 WHEN year = '2018' THEN real_time
             END
         ),
-        'NaN'
+        0.0
     ) AS Year2018_real_time,
-    -- Promedio de tiempo estimado por año (sin redondear)
     COALESCE(
         AVG(
             CASE
                 WHEN year = '2016' THEN estimated_time
             END
         ),
-        'NaN'
+        0.0
     ) AS Year2016_estimated_time,
     COALESCE(
         AVG(
@@ -94,7 +87,7 @@ SELECT
                 WHEN year = '2017' THEN estimated_time
             END
         ),
-        'NaN'
+        0.0
     ) AS Year2017_estimated_time,
     COALESCE(
         AVG(
@@ -102,7 +95,7 @@ SELECT
                 WHEN year = '2018' THEN estimated_time
             END
         ),
-        'NaN'
+        0.0
     ) AS Year2018_estimated_time
 FROM
     cte

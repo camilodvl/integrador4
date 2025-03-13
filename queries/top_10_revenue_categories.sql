@@ -6,7 +6,7 @@
 -- PISTA: Todos los pedidos deben tener un estado 'delivered' y tanto la categoría
 -- como la fecha real de entrega no deben ser nulas.
 SELECT
-    p.product_category_name AS Category,
+    pt.product_category_name_english AS Category,
     COUNT(DISTINCT o.order_id) AS Num_order,
     SUM(py.payment_value) AS Revenue
 FROM
@@ -14,6 +14,7 @@ FROM
     JOIN olist_order_payments py ON o.order_id = py.order_id
     JOIN olist_order_items oi ON o.order_id = oi.order_id
     JOIN olist_products p ON oi.product_id = p.product_id
+    JOIN product_category_name_translation pt ON p.product_category_name = pt.product_category_name
 WHERE
     o.order_status = 'delivered'
     AND o.order_delivered_customer_date IS NOT NULL

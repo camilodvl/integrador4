@@ -2,8 +2,8 @@
 -- Cantidad. La primera contendrá las diferentes clases de estado de los pedidos,
 -- y la segunda mostrará el total de cada uno.
 SELECT
-    order_status AS estado_pedido,
-    COUNT(*) AS Cantidad
+    order_status,
+    COUNT(*) AS Ammount
 FROM
     olist_orders
 GROUP BY
