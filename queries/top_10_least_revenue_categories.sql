@@ -4,7 +4,8 @@
 -- Num_order, con el total de pedidos de cada categoría; y la última será Revenue,
 -- con el ingreso total de cada categoría.
 -- PISTA: Todos los pedidos deben tener un estado 'delivered' y tanto la categoría
--- como la fecha real de entrega no deben ser nulas.
+-- como la fecha real de entrega no deben ser nulas.#
+--falta
 SELECT
     p.product_category_name AS Category,
     COUNT(DISTINCT o.order_id) AS Num_order,
