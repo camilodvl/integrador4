@@ -1,5 +1,8 @@
-# Video Explicativo
+# Video Explicativo Entrega #1
 https://youtu.be/7F7DW39C-wk
+
+# Video Explicativo Entrega #2
+https://youtu.be/KQzXt1kieN4 
 
 # Integrantes
 ## Camilo Andrés Ramírez Muñoz
