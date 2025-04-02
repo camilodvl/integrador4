@@ -4,6 +4,9 @@ https://youtu.be/7F7DW39C-wk
 # Video Explicativo Entrega #2
 https://youtu.be/KQzXt1kieN4 
 
+# Video Explicativo Entrega #3
+https://youtu.be/VEDHMLshJZY
+
 # Integrantes
 ## Camilo Andrés Ramírez Muñoz
 ## Julian Ramirez Vasquez
